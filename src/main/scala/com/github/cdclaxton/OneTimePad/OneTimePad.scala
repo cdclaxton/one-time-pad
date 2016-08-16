@@ -10,7 +10,7 @@ object OneTimePad {
   /**
     * List of characters that can be encoded and decoded
     */
-  val validChars: List[Char] = ('a' to 'z').toList ::: (0 to 9).toList.map(_.toChar)
+  val validChars: List[Char] = ' ' :: ('a' to 'z').toList ::: ('0' to '9').toList
 
   val unknownChar: Char = '.'
 
