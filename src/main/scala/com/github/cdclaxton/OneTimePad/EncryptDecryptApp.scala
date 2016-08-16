@@ -1,7 +1,7 @@
 package com.github.cdclaxton.OneTimePad
 
 /**
-  * Example encoder and decoder.
+  * Example application to encrypt and decrypt a message.
   */
 object EncryptDecryptApp {
 
