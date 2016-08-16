@@ -12,7 +12,7 @@ object OneTimePad {
     */
   val validChars: List[Char] = ' ' :: ('a' to 'z').toList ::: ('0' to '9').toList
 
-  val unknownChar: Char = '.'
+  val unknownChar: Char = '-'
 
   /**
     * Generate a one-time pad.
