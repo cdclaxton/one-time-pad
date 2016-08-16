@@ -1,5 +1,5 @@
 # one-time-pad
-Toy one-time pad encrypter and decrypter.
+Toy one-time pad encryption and decryption.
 
 An example of the output from the simple application that is included:
 
