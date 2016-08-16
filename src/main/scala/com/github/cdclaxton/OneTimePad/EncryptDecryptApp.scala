@@ -14,7 +14,7 @@ object EncryptDecryptApp {
     val stringToEncrypt = "Hello! This is an example message to encrypt."
     val encrypted = OneTimePad.encrypt(stringToEncrypt, pad)
 
-    // Decrypt the stringing
+    // Decrypt the string
     val decrypted = OneTimePad.decrpyt(encrypted, pad)
 
     // Display
