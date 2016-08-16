@@ -63,7 +63,6 @@ object OneTimePad {
     */
   def transform(str: String, f: (Char) => Char): String = {
     str
-      .toLowerCase
       .toList
       .map{ case (c: Char) => if (validChars.contains(c)) f(c) else unknownChar }
       .mkString
@@ -76,7 +75,7 @@ object OneTimePad {
     * @return     Encrypted string
     */
   def encrypt(str: String, pad: Map[Char,Char]): String = {
-    transform(str, encrypt(pad))
+    transform(str.toLowerCase(), encrypt(pad))
   }
 
   /**

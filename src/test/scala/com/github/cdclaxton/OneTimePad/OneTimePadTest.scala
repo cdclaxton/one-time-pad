@@ -1,6 +1,7 @@
 package com.github.cdclaxton.OneTimePad
 
 import org.scalacheck.{Gen, Prop, Properties}
+import org.scalacheck.Prop.{BooleanOperators, AnyOperators}
 
 /**
   * Property-based tests for OneTimePad.
@@ -28,14 +29,34 @@ object OneTimePadTest extends Properties("OneTimePad") {
     c <- Gen.oneOf(OneTimePad.validChars)
   } yield c
 
+  val validCharStringGen: Gen[String] = for {
+    s <- Gen.listOf(validCharGen)
+  } yield s.mkString
+
+  property("transform on valid characters") = Prop.forAll(validCharStringGen) { str: String =>
+    val f = (x: Char) => x // Identity transformation
+    OneTimePad.transform(str, f) == str
+  }
+
+  property("transform on any characters") = Prop.forAll { str: String =>
+    str.length > 0 ==> {
+      val f = (x: Char) => x // Identity transformation
+      val transformed: String = OneTimePad.transform(str, f)
+      val setOfTransformedChars: Set[Char] = transformed.toList.toSet
+      val setOfValidChars: Set[Char] = OneTimePad.validChars.toSet
+      setOfTransformedChars.forall(c => setOfValidChars.contains(c) || c == OneTimePad.unknownChar)
+    }
+  }
+
   property("encrypt and decrypt characters") = Prop.forAll(validCharGen) { c: Char =>
     val pad = OneTimePad.genPad
     OneTimePad.decrypt(pad)(OneTimePad.encrypt(pad)(c)) == c
   }
 
-  property("encrypt and decrypt strings") = Prop.forAll { (s: String) =>
+  property("encrypt and decrypt strings with valid chars") = Prop.forAll(validCharStringGen) { s: String =>
     val pad = OneTimePad.genPad
-    OneTimePad.decrpyt(OneTimePad.encrypt(s, pad), pad) == s
+    val encrypted = OneTimePad.encrypt(s, pad)
+    OneTimePad.decrpyt(encrypted, pad) =? s
   }
 
 }
